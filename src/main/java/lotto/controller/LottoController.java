@@ -15,7 +15,7 @@ public class LottoController {
         int price = validatePrice();
         List<Lotto> lottos = buyLotto(price/1000);
         Lotto lottoNumber = validateLottoNumber();
-        int bonusNumber = validateBonusNumber();
+        int bonusNumber = validateBonusNumber(lottoNumber);
         showStatisticResult(lottos, lottoNumber, bonusNumber);
     }
 
@@ -95,17 +95,24 @@ public class LottoController {
     }
 
 
-    public int validateBonusNumber(){
+    public int validateBonusNumber(Lotto  lottoNumber){
         InputView.getBonusNumber();
         while(true){
             try{
                 String input = InputView.readInput();
                 int num = validateNum(input);
                 verifyBonusNumberScope(num);
+                checkDuplicateNum(lottoNumber.getNumbers(), num);
                 return num;
             }catch(IllegalArgumentException e){
                 System.out.println(e.getMessage());
             }
+        }
+    }
+
+    public void checkDuplicateNum(List<Integer> list, int num){
+        if(list.contains(num)){
+            throw new IllegalArgumentException("[ERROR] 중복된 숫자가 존재합니다");
         }
     }
 
