@@ -16,10 +16,10 @@ public class LottoController {
         List<Lotto> lottos = buyLotto(price/1000);
         Lotto lottoNumber = validateLottoNumber();
         int bonusNumber = validateBonusNumber(lottoNumber);
-        showStatisticResult(lottos, lottoNumber, bonusNumber);
+        showStatisticResult(price, lottos, lottoNumber, bonusNumber);
     }
 
-    public void showStatisticResult(List<Lotto> lottos, Lotto lottoNumber, int bonusNumber){
+    public void showStatisticResult(int price, List<Lotto> lottos, Lotto lottoNumber, int bonusNumber){
         Map<Rank, Integer> ranks = new EnumMap<>(Rank.class);
         for (Rank rank : Rank.values()) {
             ranks.put(rank, 0);
@@ -30,10 +30,18 @@ public class LottoController {
             if(rank == Rank.NONE) continue;
             ranks.put(rank, ranks.get(rank) + 1);
         }
-        int sum = ranks.values().stream().mapToInt(Integer::intValue).sum();
-        double percent = ((double)sum / (double)lottos.size()) * 100;
-        percent = Math.round(percent * 100) / 100.0;
+        int sum = calculateRevenue(ranks);
+        double percent = (double)sum/price * 100;
+        percent = Math.round(percent * 10) / 10.0;
         OutputView.printStatistic(ranks, percent);
+    }
+
+    public int calculateRevenue(Map<Rank, Integer> ranks){
+        int sum = 0;
+        for(Map.Entry<Rank, Integer> entry : ranks.entrySet()){
+            sum += entry.getKey().getPrize() * entry.getValue();
+        }
+        return sum;
     }
 
     public Rank checkSameNum(Lotto lotto, List<Integer> lottoNum, int bonusNumber){
