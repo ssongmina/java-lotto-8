@@ -122,9 +122,15 @@ public class LottoController {
 
     public int validateNum(String input){
         try{
+            int num = Integer.parseInt(input);
+            if(num % 1000 != 0){
+                throw new ArithmeticException();
+            }
             return Integer.parseInt(input);
         } catch(NumberFormatException e){
             throw new IllegalArgumentException("[ERROR] 정수값이 아닙니다.");
+        } catch(ArithmeticException e){
+            throw new IllegalArgumentException("[ERROR] 로또 구입 금액은 1000원 단위로 입력하셔야 합니다");
         }
     }
 
