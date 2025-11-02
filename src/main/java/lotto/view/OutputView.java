@@ -29,7 +29,7 @@ public class OutputView {
         printRankResult(Rank.THIRD, ranks.get(Rank.THIRD));
         printRankResult(Rank.SECOND, ranks.get(Rank.SECOND));
         printRankResult(Rank.FIRST, ranks.get(Rank.FIRST));
-        System.out.println("총 수익률은 " + win + "%입니다.");
+        System.out.printf("총 수익률은 %.1f%%입니다.", win);
     }
 
     public static void printRankResult(Rank ranks, int num){

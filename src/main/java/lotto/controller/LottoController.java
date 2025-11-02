@@ -31,8 +31,7 @@ public class LottoController {
             ranks.put(rank, ranks.get(rank) + 1);
         }
         int sum = calculateRevenue(ranks);
-        double percent = (double)sum/price * 100;
-        percent = Math.round(percent * 10) / 10.0;
+        double percent = ((double)sum/price) * 100;
         OutputView.printStatistic(ranks, percent);
     }
 
