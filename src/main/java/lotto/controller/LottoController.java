@@ -100,10 +100,18 @@ public class LottoController {
         while(true){
             try{
                 String input = InputView.readInput();
-                return validateNum(input);
+                int num = validateNum(input);
+                verifyBonusNumberScope(num);
+                return num;
             }catch(IllegalArgumentException e){
                 System.out.println(e.getMessage());
             }
+        }
+    }
+
+    public void verifyBonusNumberScope(int num){
+        if(num < 1 || num > 45){
+            throw new IllegalArgumentException("[ERROR] 보너스 번호는 1과 45 사이의 숫자이어야 합니다");
         }
     }
 
@@ -113,7 +121,9 @@ public class LottoController {
         while(true){
             try{
                 String input = InputView.readInput();
-                return validateNum(input);
+                int num = validateNum(input);
+                checkUnit(num);
+                return num;
             }catch(IllegalArgumentException e){
                 System.out.println(e.getMessage());
             }
@@ -122,14 +132,14 @@ public class LottoController {
 
     public int validateNum(String input){
         try{
-            int num = Integer.parseInt(input);
-            if(num % 1000 != 0){
-                throw new ArithmeticException();
-            }
             return Integer.parseInt(input);
         } catch(NumberFormatException e){
             throw new IllegalArgumentException("[ERROR] 정수값이 아닙니다.");
-        } catch(ArithmeticException e){
+        }
+    }
+
+    public void checkUnit(int num){
+        if(num % 1000 != 0){
             throw new IllegalArgumentException("[ERROR] 로또 구입 금액은 1000원 단위로 입력하셔야 합니다");
         }
     }
