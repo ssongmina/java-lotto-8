@@ -65,15 +65,22 @@ public class LottoController {
         List<Integer> numbers = new ArrayList<>();
         InputView.getLottoNumber();
         while(true){
-            String input = InputView.readInput();
-            String[] inputs = input.split(",");
             try{
+                String input = InputView.readInput();
+                hasInvalidChar(input);
+                String[] inputs = input.split(",");
                 numbers.addAll(check(inputs));
                 return new Lotto(numbers);
             }catch(IllegalArgumentException e){
                 System.out.println(e.getMessage());
                 numbers.clear();
             }
+        }
+    }
+
+    public static void hasInvalidChar(String input) {
+        if(!input.matches("[0-9,]*")){
+            throw new IllegalArgumentException("[ERROR] 입력에는 숫자 또는 쉼표만 존재해야 합니다");
         }
     }
 
